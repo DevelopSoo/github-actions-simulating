@@ -1,3 +1,3 @@
 test("test", () => {
-  // 지우기
+  expect(false).toBe(true);
 });

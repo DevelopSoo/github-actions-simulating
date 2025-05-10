@@ -1,0 +1,38 @@
+# Workflow의 이름
+# 하나의 yml 파일을 하나의 workflow라고 말합니다.
+name: Github Actions로 CI 연습하기
+
+# Event: 언제 이 workflow를 실행할거야?
+# push: 코드를 github에 push할 때마다
+# branches: 특정 브랜치에 push할 때만 실행
+# - main: main 브랜치에 push할 때만 실행
+on:
+  push:
+    branches:
+      - main
+
+# workflows -> 여러 개의 jobs로 구성
+jobs:
+  # job의 이름 -> 내 마음대로 지정해도 됨
+  my-job:
+    # github actions를 실행시킬 서버 종류를 선택
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Hello World를 출력한다
+        run: echo "Hello World" # run: 이 커맨드를 실행시킨다.
+
+      - name: 여러 문장을 실행하는 법
+        run: |
+          echo "안녕"
+          echo "좋은 아침"
+
+      - name: Github Actions 내부의 변수를 사용해보기
+        run: |
+          echo $GITHUB_SHA
+          echo $GITHUB_REPOSITORY
+
+      - name: Github Actions Secret 변수 사용해보기
+        run: |
+          echo ${{ secrets.MY_NAME }}
+          echo ${{ secrets.MY_HOBBY }}

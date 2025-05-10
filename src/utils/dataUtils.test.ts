@@ -11,6 +11,20 @@ describe("dataUtils", () => {
     ];
   });
 
+  test("적절하지 않은 값", () => {
+    // @ts-expect-error 문자열이 아닌 값이 들어왔을 때, 예외 발생
+    expect(() => filterByCategory(2, "")).toThrow(
+      "데이터는 배열이어야 합니다.",
+    );
+    // @ts-expect-error 문자열이 아닌 값이 들어왔을 때, 예외 발생
+    expect(() => filterByCategory(data, 1)).toThrow(
+      "카테고리는 문자열이어야 합니다.",
+    );
+    expect(() => filterByCategory(data, "")).toThrow(
+      "카테고리는 빈 문자열이 될 수 없습니다.",
+    );
+  });
+
   test("filterByCategory가 카테고리 필터링을 제대로 하는지 검증", () => {
     const filteredData = filterByCategory(data, "A");
 

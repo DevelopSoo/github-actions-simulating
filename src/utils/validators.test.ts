@@ -1,5 +1,5 @@
 import { validateEmail, validatePassword, validateUser } from "./validators";
-describe.skip("validateEmail 함수 검증", () => {
+describe("validateEmail 함수 검증", () => {
   test("유효한 이메일 주소 검증", () => {
     expect(validateEmail("test@example.com")).toBe(true);
     expect(validateEmail("user.name@domain.co.kr")).toBe(true);

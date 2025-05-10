@@ -8,7 +8,7 @@ coverage:
         base: auto # 비교 기준이 되는 브랜치/커밋
 
 comment:
-  layout: "diff, flags, files" # PR 코멘트에 표시할 내용 구성
+  layout: "header, files, footer" # remove "new" from "header" and "footer"
   behavior: default # 코멘트 동작 방식
   require_changes: false # 커버리지 변경이 있을 때만 코멘트 달지 여부
   require_base: false # base 브랜치의 커버리지 리포트가 필요한지 여부

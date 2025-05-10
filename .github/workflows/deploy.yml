@@ -9,7 +9,7 @@ name: Github Actions로 CI 연습하기
 on:
   push:
     branches:
-      - main
+      - "**"
 
 # workflows -> 여러 개의 jobs로 구성
 jobs:
@@ -19,20 +19,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Hello World를 출력한다
-        run: echo "Hello World" # run: 이 커맨드를 실행시킨다.
+      - name: Github Repository에서 파일 불러오기
+        uses: actions/checkout@v4
 
-      - name: 여러 문장을 실행하는 법
-        run: |
-          echo "안녕"
-          echo "좋은 아침"
+      - name: Node 설치
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-      - name: Github Actions 내부의 변수를 사용해보기
-        run: |
-          echo $GITHUB_SHA
-          echo $GITHUB_REPOSITORY
+      - name: 의존성 설치
+        run: npm ci
 
-      - name: Github Actions Secret 변수 사용해보기
-        run: |
-          echo ${{ secrets.MY_NAME }}
-          echo ${{ secrets.MY_HOBBY }}
+      - name: 테스트 실행
+        run: npm run test
+
+      - name: 빌드하기
+        run: npm run build

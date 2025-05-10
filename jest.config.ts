@@ -13,6 +13,7 @@ const config: Config = {
   // 테스트 전에 실행할 설정 파일을 지정
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   maxWorkers: "50%",
+  testPathIgnorePatterns: ["<rootDir>/tests/", "<rootDir>/tests-examples/"],
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

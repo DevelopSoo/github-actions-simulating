@@ -66,6 +66,7 @@ export default function ProductPage() {
         <button
           className="rounded-md bg-blue-500 px-4 py-2 text-white"
           onClick={() => {
+            throw new Error("구매 버튼 클릭");
             router.push("/purchase/complete");
           }}
         >

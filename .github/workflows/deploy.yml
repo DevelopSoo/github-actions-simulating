@@ -1,11 +1,9 @@
 # Workflow의 이름
-# 하나의 yml 파일을 하나의 workflow라고 말합니다.
-name: Github Actions로 CI 연습하기
+# Workflow : 하나의 yml 파일을 하나의 Workflow라고 부른다.
+name: Github Actions 연습하기
 
-# Event: 언제 이 workflow를 실행할거야?
-# push: 코드를 github에 push할 때마다
-# branches: 특정 브랜치에 push할 때만 실행
-# - main: main 브랜치에 push할 때만 실행
+# Event : 실행되는 시점을 설정
+# main이라는 브랜치에 push 될 때 아래 Workflow를 실행
 on:
   push:
     branches:
@@ -14,45 +12,48 @@ on:
     branches:
       - "**"
 
+# PR에 댓글을 달려면 권한 설정 필요
 permissions:
-  contents: read
-  issues: write
   pull-requests: write
 
+# concurrency 설정 추가
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }} # 워크플로우 이름과 브랜치 이름을 그룹으로 묶어서 실행
   cancel-in-progress: true # 이미 실행 중인 이전 워크플로우를 취소합니다
 
-# workflows -> 여러 개의 jobs로 구성
+# 하나의 Workflow는 1개 이상의 Job으로 구성된다.
+# 여러 Job은 기본적으로 병렬적으로 수행된다.
 jobs:
-  # job의 이름 -> 내 마음대로 지정해도 됨
+  # Job을 식별하기 위한 id -> 이름은 자유롭게 작성
+
   my-job:
-    # github actions를 실행시킬 서버 종류를 선택
+    # Github Actions를 실행시킬 서버 종류 선택
     runs-on: ubuntu-latest
 
+    # Step : 특정 작업을 수행하는 가장 작은 단위
+    # Job은 여러 Step들로 구성되어 있다.
     steps:
-      - name: Github Repository에서 파일 불러오기
+      - name: Github Repository 파일 가져오기
         uses: actions/checkout@v4
+
+      - name: PR에 코멘트를 추가하겠습니다.
+        # main 브랜치가 아닐 때만 이 단계 실행
+        if: github.ref != 'refs/heads/main'
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} --body "안녕하세요! PR을 검토하겠습니다. 👋"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Node 설치
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: 의존성 설치
+      - name: 의존성(라이브러리) 설치
         run: npm ci
 
-      - name: 테스트 실행
+      - name: 테스트 실행하기
         run: npm run test
 
       - name: 빌드하기
         run: npm run build
-
-  deploy:
-    needs: my-job # my-job이 성공적으로 완료된 후에만 실행
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: 배포하기
-        run: echo "배포 시작"

@@ -1,3 +1,7 @@
+import { render, screen } from "@testing-library/react";
+import Home from "./page";
+
 test("test", () => {
-  expect(true).toBe(true);
+  render(<Home />);
+  expect(screen.getByText("게시글 목록")).toBeInTheDocument();
 });

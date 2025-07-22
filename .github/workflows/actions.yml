@@ -17,3 +17,9 @@ jobs:
         run: |
           echo "첫 번째 명령어"
           echo "두 번째 명령어"
+
+      # 참고: https://docs.github.com/en/actions/learn-github-actions/variables
+      - name: Github Actions 자체에 저장되어 있는 변수 사용해보기
+        run: |
+          echo $GITHUB_SHA
+          echo $GITHUB_REPOSITORY

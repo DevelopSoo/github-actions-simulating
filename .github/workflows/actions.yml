@@ -1,25 +1,19 @@
 # .github/workflows/actions.yml
 
 # 이름 짓기
-name: 테스트 자동화
+name: Github Actions 연습하기
 # 언제 이 작업을 실행할지 정의
 # push: github에 push할 때마다 실행
 on: push
 
 jobs:
-  test:
+  push-job:
     runs-on: ubuntu-latest
     steps:
-      - name: Github Repository 파일 불러오기
-        uses: actions/checkout@v4
+      - name: 첫 번째 작업
+        run: echo "첫 번째 작업 실행 중"
 
-      - name: Node 설치
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: 의존성(라이브러리) 설치
-        run: npm ci
-
-      - name: 테스트 실행하기
-        run: npm run test
+      - name: 여러 명령어 문장 작성하기
+        run: |
+          echo "첫 번째 명령어"
+          echo "두 번째 명령어"

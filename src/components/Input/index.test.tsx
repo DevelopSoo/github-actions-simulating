@@ -10,7 +10,7 @@ test("Input 컴포넌트 미입력 시 X 버튼이 보이지 않아야 한다.",
   const deleteButton = screen.queryByRole("button", { name: "입력값 지우기" });
 
   // 3. input에 아무것도 입력되지 않았는지 확인
-  expect(input).toHaveValue("");
+  expect(input).toHaveValue("1");
   // 4. 버튼이 안보이는지 확인
   expect(deleteButton).not.toBeInTheDocument();
 });

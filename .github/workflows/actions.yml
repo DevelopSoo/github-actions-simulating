@@ -1,11 +1,7 @@
 # .github/workflows/actions.yml
 
 name: Github Actions로 테스트 자동화하기
-on:
-  pull_request:
-    branches:
-      - main
-    types: [opened]
+on: workflow_dispatch
 
 jobs:
   test:

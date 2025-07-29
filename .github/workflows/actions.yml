@@ -4,6 +4,8 @@ on: push
 jobs:
   create-output:
     runs-on: ubuntu-latest
+    outputs:
+      abc: ${{ steps.save-output.outputs.message }}
     steps:
       - name: output 저장
         id: save-output
@@ -11,3 +13,10 @@ jobs:
 
       - name: output 사용
         run: echo "저장된 키는 ${{ steps.save-output.outputs.message }}입니다."
+
+  use-output:
+    runs-on: ubuntu-latest
+    needs: create-output
+    steps:
+      - name: output 사용
+        run: echo "이 job에서 사용할 output은 ${{ needs.create-output.outputs.abc }}입니다."

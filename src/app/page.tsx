@@ -1,12 +1,20 @@
-import { Input } from '@/components/Input';
+// src/app/page.tsx
+
+'use client';
+
+import * as Sentry from '@sentry/nextjs';
 
 export default function Home() {
   return (
-    <div className="flex h-screen items-center justify-center">
-      <div className="w-80">
-        <Input isError={true} errorMessage="입력값에 문제가 있습니다" />
-        <div>hi</div>
-      </div>
+    <div>
+      <h1>Sentry 알림 테스트</h1>
+      <button
+        onClick={() => {
+          Sentry.captureException(new Error('Route Handler222 에러'));
+        }}
+      >
+        에러 발생
+      </button>
     </div>
   );
 }

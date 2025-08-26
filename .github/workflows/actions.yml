@@ -1,4 +1,4 @@
-name: npm 성능 테스트
+name: pnpm 성능 테스트
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  npm-test:
+  pnpm-test:
     runs-on: ubuntu-latest
     steps:
       - name: Repository 체크아웃
@@ -17,29 +17,36 @@ jobs:
         with:
           node-version: 20
 
-      - name: npm 캐시 설정
-        id: npm-cache
+      - name: pnpm 설치
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
+
+      - name: pnpm 캐시 설정
+        id: pnpm-cache
         uses: actions/cache@v3
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          path: |
+            ~/.local/share/pnpm/store
+            node_modules
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-pnpm-
 
       - name: 캐시 상태 출력
         run: |
-          if [[ "${{ steps.npm-cache.outputs.cache-hit }}" == 'true' ]]; then
+          if [[ "${{ steps.pnpm-cache.outputs.cache-hit }}" == 'true' ]]; then
             echo "캐시 히트: true"
           else
             echo "캐시 히트: false"
           fi
 
-      - name: npm 설치 및 빌드 시간 측정
+      - name: pnpm 설치 및 빌드 시간 측정
         run: |
-          echo "=== npm 테스트 시작 ==="
-          echo "캐시 상태: ${{ steps.npm-cache.outputs.cache-hit }}"
-          echo "npm install 시작"
-          time npm install
-          echo "npm run build 시작"
-          time npm run build
-          echo "=== npm 테스트 종료 ==="
+          echo "=== pnpm 테스트 시작 ==="
+          echo "캐시 상태: ${{ steps.pnpm-cache.outputs.cache-hit }}"
+          echo "pnpm install 시작"
+          time pnpm install
+          echo "pnpm run build 시작"
+          time pnpm run build
+          echo "=== pnpm 테스트 종료 ==="
